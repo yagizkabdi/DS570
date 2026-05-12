@@ -3,12 +3,22 @@
     {"title": "Albert_Einstein", "display_name": "Albert Einstein", "category": "Physics", "born": 1879, "died": 1955},
     {"title": "Isaac_Newton", "display_name": "Isaac Newton", "category": "Physics", "born": 1643, "died": 1727},
     {"title": "Niels_Bohr", "display_name": "Niels Bohr", "category": "Physics", "born": 1885, "died": 1962},
-    {"title": "Stephen_Hawking", "display_name": "Stephen Hawking", "category": "Physics", "born": 1942, "died": 2018},
+    {"title": "Werner_Heisenberg", "display_name": "Werner Heisenberg", "category": "Physics", "born": 1901, "died": 1976},
+    {"title": "Stephen_Hawking", "display_name": "Stephen Hawking", "category": "Astronomy", "born": 1942, "died": 2018},
     {"title": "Richard_Feynman", "display_name": "Richard Feynman", "category": "Physics", "born": 1918, "died": 1988},
     {"title": "Marie_Curie", "display_name": "Marie Curie", "category": "Chemistry", "born": 1867, "died": 1934},
+    {"title": "Max_Planck", "display_name": "Max Planck", "category": "Physics", "born": 1858, "died": 1947},
     {"title": "Charles_Darwin", "display_name": "Charles Darwin", "category": "Biology", "born": 1809, "died": 1882},
+    {"title": "Gregor_Mendel", "display_name": "Gregor Mendel", "category": "Biology", "born": 1822, "died": 1884},
     {"title": "Nikola_Tesla", "display_name": "Nikola Tesla", "category": "Engineering", "born": 1856, "died": 1943},
+    {"title": "Thomas_Edison", "display_name": "Thomas Edison", "category": "Engineering", "born": 1847, "died": 1931},
     {"title": "Alan_Turing", "display_name": "Alan Turing", "category": "Computer Science", "born": 1912, "died": 1954},
-    {"title": "Carl_Sagan", "display_name": "Carl Sagan", "category": "Astronomy", "born": 1934, "died": 1996}
+    {"title": "Carl_Friedrich_Gauss", "display_name": "Carl Friedrich Gauss", "category": "Mathematics", "born": 1777, "died": 1855},
+    {"title": "Galileo_Galilei", "display_name": "Galileo Galilei", "category": "Astronomy", "born": 1564, "died": 1642},
+    {"title": "Carl_Sagan", "display_name": "Carl Sagan", "category": "Astronomy", "born": 1934, "died": 1996},
+    {"title": "Leonhard_Euler", "display_name": "Leonhard Euler", "category": "Mathematics", "born": 1707, "died": 1783},
+    {"title": "Louis_Pasteur", "display_name": "Louis Pasteur", "category": "Biology", "born": 1822, "died": 1895},
+    {"title": "Enrico_Fermi", "display_name": "Enrico Fermi", "category": "Physics", "born": 1901, "died": 1954},
+    {"title": "Robert_Oppenheimer", "display_name": "Robert Oppenheimer", "category": "Physics", "born": 1904, "died": 1967}
   ]
 }

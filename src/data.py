@@ -1,5 +1,6 @@
 ﻿import json
 from datetime import date, timedelta
+from urllib.parse import quote
 import pandas as pd
 import requests
 
@@ -15,7 +16,7 @@ def load_scientists():
 
 
 def _fetch_one(title, start, end, session):
-    url = API.format(title=title, start=start, end=end)
+    url = API.format(title=quote(title, safe=""), start=start, end=end)
     r = session.get(url, headers=HEADERS, timeout=20)
     if r.status_code == 404:
         return pd.DataFrame(columns=["date", "views"])

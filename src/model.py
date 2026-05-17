@@ -16,3 +16,11 @@ def add_features(data):
     df["dow"] = df["date"].dt.dayofweek
     df["is_weekend"] = (df["dow"] >= 5).astype(int)
     return df
+
+
+def naive(df):
+    return df.groupby("title")["log_views"].shift(1)
+
+
+def seasonal_naive(df):
+    return df.groupby("title")["log_views"].shift(7)

@@ -1,5 +1,6 @@
 ﻿import numpy as np
 import pandas as pd
+from sklearn.ensemble import RandomForestRegressor
 from sklearn.linear_model import LinearRegression
 
 FEATURES = ["lag_1", "lag_7", "roll7", "dow", "is_weekend"]
@@ -33,7 +34,11 @@ def train_models(data, test_days=30):
     cutoff = df["date"].max() - pd.Timedelta(days=test_days)
     train = df[df["date"] <= cutoff]
     X_train, y_train = train[FEATURES], train["log_views"]
+    X_all = df[FEATURES]
     linreg = LinearRegression().fit(X_train, y_train)
-    df["pred_linreg"] = linreg.predict(df[FEATURES])
+    df["pred_linreg"] = linreg.predict(X_all)
+    rf = RandomForestRegressor(n_estimators=150, random_state=0, n_jobs=-1)
+    rf.fit(X_train, y_train)
+    df["pred_rf"] = rf.predict(X_all)
     df["is_test"] = df["date"] > cutoff
-    return {"data": df, "cutoff": cutoff, "linreg": linreg}
+    return {"data": df, "cutoff": cutoff, "linreg": linreg, "rf": rf}

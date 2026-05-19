@@ -58,3 +58,24 @@ def mape(y_true, y_pred):
     if keep.sum() == 0:
         return 0.0
     return float(100 * np.mean(np.abs(y_true[keep] - y_pred[keep]) / y_true[keep]))
+
+
+def evaluate(test_df):
+    models = {
+        "Naive (yesterday)": "pred_naive",
+        "Seasonal naive (last week)": "pred_seasonal",
+        "Linear Regression": "pred_linreg",
+        "Random Forest": "pred_rf",
+    }
+    true_log = test_df["log_views"].to_numpy()
+    true_views = np.expm1(true_log)
+    rows = []
+    for label, col in models.items():
+        pred_log = test_df[col].to_numpy()
+        pred_views = np.expm1(pred_log)
+        rows.append({
+            "Model": label,
+            "MAE (log)": round(mae(true_log, pred_log), 3),
+            "MAPE (%)": round(mape(true_views, pred_views), 1),
+        })
+    return pd.DataFrame(rows)

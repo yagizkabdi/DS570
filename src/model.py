@@ -1,4 +1,6 @@
-﻿import numpy as np
+﻿# we work with log(views) since the counts are very skewed
+
+import numpy as np
 import pandas as pd
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.linear_model import LinearRegression
@@ -10,8 +12,9 @@ def add_features(data):
     df = data.copy()
     df["log_views"] = np.log1p(df["views"])
     g = df.groupby("title")["log_views"]
-    df["lag_1"] = g.shift(1)
-    df["lag_7"] = g.shift(7)
+    df["lag_1"] = g.shift(1)   # views yesterday
+    df["lag_7"] = g.shift(7)   # views same day last week
+    # shift before rolling so today is not included
     df["roll7"] = g.shift(1).rolling(7, min_periods=1).mean().reset_index(0, drop=True)
     df["dow"] = df["date"].dt.dayofweek
     df["is_weekend"] = (df["dow"] >= 5).astype(int)
@@ -27,6 +30,7 @@ def seasonal_naive(df):
 
 
 def train_models(data, test_days=30):
+    # train on all days except the last test_days
     df = add_features(data)
     df["pred_naive"] = naive(df)
     df["pred_seasonal"] = seasonal_naive(df)
@@ -42,3 +46,15 @@ def train_models(data, test_days=30):
     df["pred_rf"] = rf.predict(X_all)
     df["is_test"] = df["date"] > cutoff
     return {"data": df, "cutoff": cutoff, "linreg": linreg, "rf": rf}
+
+
+def mae(y_true, y_pred):
+    return float(np.mean(np.abs(y_true - y_pred)))
+
+
+def mape(y_true, y_pred):
+    y_true, y_pred = np.asarray(y_true), np.asarray(y_pred)
+    keep = y_true > 0
+    if keep.sum() == 0:
+        return 0.0
+    return float(100 * np.mean(np.abs(y_true[keep] - y_pred[keep]) / y_true[keep]))

@@ -79,3 +79,15 @@ def evaluate(test_df):
             "MAPE (%)": round(mape(true_views, pred_views), 1),
         })
     return pd.DataFrame(rows)
+
+
+def find_spikes(data, window=30, threshold=2.0):
+    df = data.copy()
+    df["log_views"] = np.log1p(df["views"])
+    g = df.groupby("title")["log_views"]
+    roll_mean = g.transform(lambda s: s.shift(1).rolling(window, min_periods=5).mean())
+    roll_std  = g.transform(lambda s: s.shift(1).rolling(window, min_periods=5).std())
+    df["zscore"] = (df["log_views"] - roll_mean) / roll_std
+    df["zscore"] = df["zscore"].fillna(0)
+    df["is_spike"] = df["zscore"] >= threshold
+    return df

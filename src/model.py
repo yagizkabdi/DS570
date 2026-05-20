@@ -81,7 +81,8 @@ def evaluate(test_df):
     return pd.DataFrame(rows)
 
 
-def find_spikes(data, window=30, threshold=2.0):
+def find_spikes(data, window=30, threshold=3.0):
+    # flag days that are far above the recent average (z-score >= threshold)
     df = data.copy()
     df["log_views"] = np.log1p(df["views"])
     g = df.groupby("title")["log_views"]

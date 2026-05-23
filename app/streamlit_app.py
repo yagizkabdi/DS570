@@ -101,7 +101,8 @@ with tab3:
     st.subheader("How good are the predictions?")
     test = modeled[modeled["is_test"]]
     scores = evaluate(test)
-    st.write(f"Tested on the last 30 days. Lower is better.")
+    st.write(f"Tested on the last 30 days ({(cutoff + pd.Timedelta(days=1)).date()} "
+             f"to {modeled['date'].max().date()}). Lower is better.")
     st.dataframe(scores, use_container_width=True, hide_index=True)
     best = scores.sort_values("MAPE (%)").iloc[0]
     naive_mape = scores[scores["Model"] == "Naive (yesterday)"]["MAPE (%)"].iloc[0]
@@ -116,7 +117,16 @@ with tab3:
     plot_df = one[["date", "Actual", "Random Forest"]].melt(
         id_vars="date", var_name="series", value_name="pageviews")
     fig = px.line(plot_df, x="date", y="pageviews", color="series", log_y=True,
-                  title=name_of[title3])
+                  title=name_of[title3],
+                  labels={"date": "Date", "pageviews": "Daily pageviews", "series": ""})
     fig.add_vline(x=cutoff.timestamp() * 1000, line_dash="dash")
     st.plotly_chart(fig, use_container_width=True)
-    st.caption("dashed line = start of test period")
+    st.caption("The dashed line is where the 30-day test period starts.")
+
+    st.subheader("What does the Random Forest use most?")
+    fig = px.bar(importance, x="importance", y="feature", orientation="h",
+                 labels={"importance": "Importance", "feature": "Feature"})
+    st.plotly_chart(fig, use_container_width=True)
+
+    st.write("Note: this model only looks at past views, so it cannot predict "
+             "a sudden spike caused by a news event. Those show up in the Spikes tab.")

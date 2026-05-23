@@ -96,3 +96,27 @@ with tab2:
     fig.add_scatter(x=flagged["date"], y=flagged["views"], mode="markers",
                     name="Spike", marker=dict(color="red", size=8))
     st.plotly_chart(fig, use_container_width=True)
+
+with tab3:
+    st.subheader("How good are the predictions?")
+    test = modeled[modeled["is_test"]]
+    scores = evaluate(test)
+    st.write(f"Tested on the last 30 days. Lower is better.")
+    st.dataframe(scores, use_container_width=True, hide_index=True)
+    best = scores.sort_values("MAPE (%)").iloc[0]
+    naive_mape = scores[scores["Model"] == "Naive (yesterday)"]["MAPE (%)"].iloc[0]
+    st.write(f"Best: **{best['Model']}** with {best['MAPE (%)']}% error (naive was {naive_mape}%).")
+
+    st.subheader("Prediction vs reality")
+    title3 = st.selectbox("Scientist", names["title"],
+                          format_func=lambda t: name_of[t], key="pred_pick")
+    one = modeled[modeled["title"] == title3].copy()
+    one["Actual"] = np.expm1(one["log_views"])
+    one["Random Forest"] = np.expm1(one["pred_rf"])
+    plot_df = one[["date", "Actual", "Random Forest"]].melt(
+        id_vars="date", var_name="series", value_name="pageviews")
+    fig = px.line(plot_df, x="date", y="pageviews", color="series", log_y=True,
+                  title=name_of[title3])
+    fig.add_vline(x=cutoff.timestamp() * 1000, line_dash="dash")
+    st.plotly_chart(fig, use_container_width=True)
+    st.caption("dashed line = start of test period")

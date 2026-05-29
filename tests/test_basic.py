@@ -8,8 +8,8 @@ def fake_data(n_days=120):
     rows = []
     for i, name in enumerate(["A", "B", "C"]):
         views = 100 + 20 * i + np.random.randint(0, 30, n_days)
-        if name == "A":
-            views[150] = 5000
+        if name == "A" and n_days > 80:
+            views[80] = 5000
         for d, v in zip(dates, views):
             rows.append({"title": name, "name": name, "category": "Physics",
                          "date": d, "views": int(v)})

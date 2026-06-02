@@ -1,6 +1,6 @@
 ﻿# Wikipedia Fame Predictor
 
-DS 570 final project.
+DS570 Final Project.
 
 This project downloads daily Wikipedia pageviews for a list of famous
 scientists and builds a small dashboard around them. It does two things:
@@ -8,7 +8,7 @@ it tries to predict tomorrow's pageviews, and it finds the days when a
 scientist suddenly got a lot more attention than usual (usually because
 of news, an award, or a death).
 
-## How to run it with Docker
+## How to Run it with Docker
 
 You only need Docker installed.
 
@@ -30,7 +30,7 @@ To run the tests:
 docker run wiki-fame pytest -q
 ```
 
-## The data
+## The Data
 
 The data comes from the Wikimedia Pageviews API, which is free and public
 (no login needed). For each scientist we get the number of daily views on
@@ -42,7 +42,7 @@ science, astronomy, engineering). I included some recent Nobel Prize
 winners on purpose, because their pages spike a lot around the time they
 won, which makes the spike detection more interesting.
 
-## The dashboard
+## The Dashboard
 
 There are three tabs:
 
@@ -53,7 +53,7 @@ There are three tabs:
 - Prediction: compares the models on the last 30 days and shows the
   predicted vs real pageviews for a chosen scientist.
 
-## How the prediction works
+## How the Prediction Works
 
 The number of pageviews is very skewed (some scientists get way more
 views than others), so I predict log(views) instead of the raw number.
@@ -74,7 +74,7 @@ Models compared:
 - Linear Regression
 - Random Forest
 
-## How the spike detection works
+## How the Spike Detection Works
 
 For each scientist I compute the rolling average and standard deviation
 of the last 30 days, then a z-score for each day. If a day is 3 or more

@@ -90,6 +90,41 @@ app/streamlit_app.py   the dashboard
 tests/test_basic.py    offline tests
 ```
 
+## Results
+
+Model evaluation on the last 30 days (May 4 – June 2, 2026):
+
+| Model | MAE (log) | MAPE (%) |
+|---|---|---|
+| Naive (yesterday) | 0.139 | 14.0 |
+| Seasonal naive (last week) | 0.182 | 19.7 |
+| Linear Regression | 0.122 | **12.0** |
+| Random Forest | 0.131 | 13.3 |
+
+Linear Regression wins on this holdout. The naive "predict yesterday"
+baseline is surprisingly hard to beat (14.0%) — most days look a lot
+like the day before. The Random Forest is close but not better here,
+probably because the dataset is not large enough for it to show its
+advantage.
+
+Top spikes in the last 90 days (biggest z-scores):
+
+| Date | Scientist | Views | Z-score |
+|---|---|---|---|
+| 2026-06-02 | Srinivasa Ramanujan | 12,906 | 10.6 |
+| 2026-05-19 | Fei-Fei Li | 4,352 | 14.2 |
+| 2026-04-30 | Norbert Wiener | 2,273 | 14.8 |
+| 2026-05-15 | Ferenc Krausz | 1,060 | 11.5 |
+| 2026-05-28 | Werner Heisenberg | 3,174 | 8.7 |
+
+Most-viewed scientists on average (daily pageviews, last 365 days):
+
+1. Albert Einstein — 15,546
+2. Isaac Newton — 8,760
+3. Marie Curie — 7,542
+4. Srinivasa Ramanujan — 5,485
+5. Thomas Edison — 4,757
+
 ## What it cannot do
 
 The prediction only looks at past pageviews, so it cannot predict a spike

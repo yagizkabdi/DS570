@@ -1,4 +1,4 @@
-﻿{
+{
   "_comment": "Scientists to track. Mix of classic names and recent Nobel winners so we can see real spikes.",
   "scientists": [
     {"title": "Albert_Einstein", "display_name": "Albert Einstein", "category": "Physics", "born": 1879, "died": 1955},

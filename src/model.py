@@ -1,4 +1,4 @@
-﻿# we work with log(views) since the counts are very skewed
+﻿# I worked with log(views) since the counts are very skewed
 
 import numpy as np
 import pandas as pd
@@ -14,6 +14,7 @@ def add_features(data):
     g = df.groupby("title")["log_views"]
     df["lag_1"] = g.shift(1)   # views yesterday
     df["lag_7"] = g.shift(7)   # views same day last week
+   
     # shift before rolling so today is not included
     df["roll7"] = g.shift(1).rolling(7, min_periods=1).mean().reset_index(0, drop=True)
     df["dow"] = df["date"].dt.dayofweek
@@ -30,6 +31,7 @@ def seasonal_naive(df):
 
 
 def train_models(data, test_days=30):
+    
     # train on all days except the last test_days
     df = add_features(data)
     df["pred_naive"] = naive(df)
@@ -82,6 +84,7 @@ def evaluate(test_df):
 
 
 def find_spikes(data, window=30, threshold=3.0):
+   
     # flag days that are far above the recent average (z-score >= threshold)
     df = data.copy()
     df["log_views"] = np.log1p(df["views"])
